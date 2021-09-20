@@ -1,0 +1,28 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Salah</string>
+
+    <string name="address_as_of_time_ago"><xliff:g example="3rd Street and Howard Avenue" id="address">%1$s</xliff:g> <xliff:g example="2 minutes" id="time">%2$s</xliff:g> ago</string>
+    <string name="address_as_of_time_activity"><xliff:g example="City" id="address">%1$s</xliff:g>\n <xliff:g example="2 m ago" id="time">%2$s</xliff:g></string>
+    <string name="no_location">Tap</string>
+
+    <string name="title_activity_salah">Salah</string>
+
+    <string name="hello_world">Loading…</string>
+    <string name="location_error">Error location</string>
+
+    <string name="fajr">Fajr</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="dhuhur">Dhuhur</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isha</string>
+    <string name="fajr_short">F</string>
+    <string name="sunrise_short">S</string>
+    <string name="dhuhur_short">D</string>
+    <string name="asr_short">A</string>
+    <string name="maghrib_short">M</string>
+    <string name="isha_short">I</string>
+
+    <string name="dummy">--:--</string>
+    <string name="dummy_loc">Not Available</string>
+</resources>
