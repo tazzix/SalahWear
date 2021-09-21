@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStarted
 import com.tazzix.wear.salah.complication.SalahComplicationProviderService.Companion.forceComplicationUpdate
 import com.tazzix.wear.salah.data.LocationViewModel
 import com.tazzix.wear.salah.data.MyLocation
@@ -56,32 +57,32 @@ class SalahActivity : FragmentActivity() {
         locationViewModel = LocationViewModel(applicationContext)
 
         lifecycleScope.launch {
+            whenStarted {
+                // DONE: read location from shared prefs
+                val sharedPreference =  getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE)
+                val lat = sharedPreference.getString("LT", "0.00")?.toDouble()!!
+                val lon = sharedPreference.getString("LL", "0.00")?.toDouble()!!
+                val tm = sharedPreference.getLong("TM", 0)
+                val locVal = sharedPreference.getString("LC", "N/A")!!
+
+                // DONE: if location not found, put tap target
+                if (lat!=0.0 && lon!=0.0) {
+                    val location2 = MyLocation(lat, lon)
+                    renderUI(location2,tm, false, locVal)
+                }
+            }
             checkPermissions()
 
             val location = locationViewModel.readLocationResult()
 
             if (location is ResolvedLocation) {
                 val location2 = MyLocation(location.location.latitude, location.location.longitude)
-                val pInfo = getAddressDescription(location2, true)
-                loc.text = getString(
-                    R.string.address_as_of_time_activity,
-                    pInfo.locality,
-                    getTimeAgo(location.location.time)
-                )
-                fajr.text = pInfo.fajr.toString().dropLast(3)
-                sunrise.text = pInfo.sunrise.toString().dropLast(3)
-                dhuhur.text = pInfo.dhuhur.toString().dropLast(3)
-                asr.text = pInfo.asr.toString().dropLast(3)
-                maghrib.text = pInfo.maghrib.toString().dropLast(3)
-                isha.text = pInfo.isha.toString().dropLast(3)
-
+                renderUI(location2, location.location.time, true, "")
                 // DONE: save location in SharedPrefs
-                val sharedPreference =  getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE)
-                val editor = sharedPreference.edit()
-                //editor.putFloat("lat", location2.latitude.toFloat())
-                //editor.putFloat("Long", location2.longitude.toFloat())
+                val editor = getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE).edit()
                 editor.putString("LT", location2.latitude.toString())
                 editor.putString("LL", location2.longitude.toString())
+                editor.putLong("TM", location.location.time)
                 editor.apply()
             } else {
                 loc.setText(R.string.location_error)
@@ -91,6 +92,29 @@ class SalahActivity : FragmentActivity() {
         forceComplicationUpdate()
     }
 
+    fun renderUI (mylocation: MyLocation, time: Long, refLoc: Boolean, locVal: String) {
+        val pInfo = getAddressDescription(mylocation, refLoc)
+        var locality = pInfo.locality
+        if (!refLoc) {
+            locality = locVal
+        } else {
+            val editor = getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE).edit()
+            editor.putString("LC", locality)
+            editor.apply()
+        }
+        loc.text = getString(
+            R.string.address_as_of_time_activity,
+            locality,
+            getTimeAgo(time)
+        )
+        fajr.text = pInfo.fajr.toString().dropLast(3)
+        sunrise.text = pInfo.sunrise.toString().dropLast(3)
+        dhuhur.text = pInfo.dhuhur.toString().dropLast(3)
+        asr.text = pInfo.asr.toString().dropLast(3)
+        maghrib.text = pInfo.maghrib.toString().dropLast(3)
+        isha.text = pInfo.isha.toString().dropLast(3)
+    }
+
     override fun onStop() {
         forceComplicationUpdate()
         super.onStop()
@@ -98,7 +122,7 @@ class SalahActivity : FragmentActivity() {
 
     suspend fun checkPermissions() {
         RxPermissions(this)
-            .request(Manifest.permission.ACCESS_FINE_LOCATION)
+            .request(Manifest.permission.ACCESS_COARSE_LOCATION)
             .doOnNext { isGranted ->
                 if (!isGranted) throw SecurityException("No location permission")
             }.awaitSingle()
