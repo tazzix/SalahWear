@@ -26,7 +26,7 @@ class LocationViewModel(private val applicationContext: Context) {
     private val coLocation = CoLocation.from(applicationContext)
 
     suspend fun readLocationResult(): LocationResult {
-        if (applicationContext.checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (applicationContext.checkCallingOrSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return PermissionError
         }
 

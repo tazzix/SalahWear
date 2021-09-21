@@ -107,11 +107,10 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
         val sharedPreference =  getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE)
         val lat = sharedPreference.getString("LT", "0.00")?.toDouble()!!
         val lon = sharedPreference.getString("LL", "0.00")?.toDouble()!!
-        val location = MyLocation(lat, lon)
 
         // DONE: if location not found, put tap target
         return if (lat!=0.0 && lon!=0.0) {
-            //val location = MyLocation(24.7828, 64.0011)
+            val location = MyLocation(lat, lon)
             val pInfo = getAddressDescription(location, false)
             val now = LocalTime.now().minusMinutes(15)
             var pts = arrayOf(
@@ -150,7 +149,7 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
 
     companion object {
         fun Context.forceComplicationUpdate() {
-            if (applicationContext.checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (applicationContext.checkCallingOrSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 val request = ComplicationDataSourceUpdateRequester(
                     applicationContext, ComponentName(
                         applicationContext, SalahComplicationProviderService::class.java
