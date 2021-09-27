@@ -51,7 +51,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".ConfigActivity"
+            android:label="@string/prefs"
+            android:exported="true">
+        </activity>
         <!--service
             android:name=".tile.SalahTileProviderService"
             android:label="@string/title_activity_salah"

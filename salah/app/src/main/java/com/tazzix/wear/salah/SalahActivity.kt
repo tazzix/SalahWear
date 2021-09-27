@@ -19,6 +19,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +43,7 @@ class SalahActivity : FragmentActivity() {
     private lateinit var asr: TextView
     private lateinit var maghrib: TextView
     private lateinit var isha: TextView
+    private lateinit var prefs: ImageButton
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,32 +57,30 @@ class SalahActivity : FragmentActivity() {
         maghrib = findViewById(R.id.maghrib)
         isha = findViewById(R.id.isha)
 
+        prefs = findViewById(R.id.buttom_prefs)
+        prefs.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, ConfigActivity::class.java)
+            startActivity(intent)
+        })
+
         locationViewModel = LocationViewModel(applicationContext)
 
         lifecycleScope.launch {
             whenStarted {
-                // DONE: read location from shared prefs
-                val sharedPreference =  getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE)
-                val lat = sharedPreference.getString("LT", "0.00")?.toDouble()!!
-                val lon = sharedPreference.getString("LL", "0.00")?.toDouble()!!
-                val tm = sharedPreference.getLong("TM", 0)
-                val locVal = sharedPreference.getString("LC", "N/A")!!
-
-                // DONE: if location not found, put tap target
-                if (lat!=0.0 && lon!=0.0) {
-                    val location2 = MyLocation(lat, lon)
-                    renderUI(location2,tm, false, locVal)
-                }
+                refreshView()
             }
             checkPermissions()
 
             val location = locationViewModel.readLocationResult()
 
             if (location is ResolvedLocation) {
-                val location2 = MyLocation(location.location.latitude, location.location.longitude)
+                val shPrefs = getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE)
+                val method = shPrefs.getInt("METHOD", 0)
+                val asrCalc = shPrefs.getInt("ASR_CALC", 0)
+                val location2 = MyLocation(location.location.latitude, location.location.longitude, method, asrCalc)
                 renderUI(location2, location.location.time, true, "")
                 // DONE: save location in SharedPrefs
-                val editor = getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE).edit()
+                val editor = shPrefs.edit()
                 editor.putString("LT", location2.latitude.toString())
                 editor.putString("LL", location2.longitude.toString())
                 editor.putLong("TM", location.location.time)
@@ -90,6 +91,28 @@ class SalahActivity : FragmentActivity() {
         }
 
         forceComplicationUpdate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshView()
+    }
+
+    fun refreshView() {
+        // DONE: read location from shared prefs
+        val sharedPreference =  getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE)
+        val lat = sharedPreference.getString("LT", "0.00")?.toDouble()!!
+        val lon = sharedPreference.getString("LL", "0.00")?.toDouble()!!
+        val method = sharedPreference.getInt("METHOD", 0)
+        val asrCalc = sharedPreference.getInt("ASR_CALC", 0)
+        val tm = sharedPreference.getLong("TM", 0)
+        val locVal = sharedPreference.getString("LC", "N/A")!!
+
+        // DONE: if location not found, put tap target
+        if (lat!=0.0 && lon!=0.0) {
+            val location2 = MyLocation(lat, lon, method, asrCalc)
+            renderUI(location2,tm, false, locVal)
+        }
     }
 
     fun renderUI (mylocation: MyLocation, time: Long, refLoc: Boolean, locVal: String) {

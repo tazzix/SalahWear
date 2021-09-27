@@ -107,10 +107,12 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
         val sharedPreference =  getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE)
         val lat = sharedPreference.getString("LT", "0.00")?.toDouble()!!
         val lon = sharedPreference.getString("LL", "0.00")?.toDouble()!!
+        val method = sharedPreference.getInt("METHOD", 0)
+        val asrCalc = sharedPreference.getInt("ASR_CALC", 0)
 
         // DONE: if location not found, put tap target
         return if (lat!=0.0 && lon!=0.0) {
-            val location = MyLocation(lat, lon)
+            val location = MyLocation(lat, lon, method, asrCalc)
             val pInfo = getAddressDescription(location, false)
             val now = LocalTime.now().minusMinutes(15)
             var pts = arrayOf(
