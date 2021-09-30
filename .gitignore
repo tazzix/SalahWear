@@ -1,7 +1,7 @@
 .DS_Store
 
 # Built application files
-*.apk
+#*.apk
 *.aar
 *.ap_
 *.aab
