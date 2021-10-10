@@ -30,8 +30,8 @@ class ConfigActivity : FragmentActivity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val sharedPreference =  getSharedPreferences("SALAH_LOCATION", Context.MODE_PRIVATE)
-                sharedPreference.edit().putInt("ASR_CALC", position).apply()
+                val sharedPreferences =  getSharedPreferences("SALAH_LOCATION", Context.MODE_PRIVATE)
+                sharedPreferences.edit().putInt("ASR_CALC", position).apply()
             }
         }
 
@@ -40,8 +40,8 @@ class ConfigActivity : FragmentActivity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val sharedPreference =  getSharedPreferences("SALAH_LOCATION", Context.MODE_PRIVATE)
-                sharedPreference.edit().putInt("METHOD", position).apply()
+                val sharedPreferences =  getSharedPreferences("SALAH_LOCATION", Context.MODE_PRIVATE)
+                sharedPreferences.edit().putInt("METHOD", position).apply()
             }
         }
     }
