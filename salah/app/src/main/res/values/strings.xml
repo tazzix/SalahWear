@@ -31,15 +31,15 @@
     <string name="asr_calc">Asr Calc</string>
 
     <string-array name="array_methods">
-        <item>Karachi Uni</item>
-        <item>Ummal Qura</item>
-        <item>Muslim World League</item>
-        <item>Egyptian Authority</item>
-        <item>North America</item>
+        <item>Karachi: University of Islamic Sciences</item>
+        <item>Makkah: Ummal Qura University</item>
+        <item>MWL: Muslim World League</item>
+        <item>Egyptian: General Authority of Survey</item>
+        <item>ISNA: Islamic Society of North America</item>
         <item>UOIF France</item>
-        <item>Kuwait Awqaf</item>
+        <item>Kuwait: Awqaf</item>
         <item>Ithna Ashari</item>
-        <item>Tehran Uni</item>
+        <item>Tehran: Institute of Geophysics</item>
     </string-array>
     <string-array name="array_asrcalcs">
         <item>Hanafi</item>
