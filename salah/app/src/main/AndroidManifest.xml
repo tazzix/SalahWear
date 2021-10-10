@@ -56,6 +56,16 @@
             android:label="@string/prefs"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".ConfigMethodActivity"
+            android:label="@string/prefs"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ConfigAsrCalcActivity"
+            android:label="@string/prefs"
+            android:exported="true">
+        </activity>
         <!--service
             android:name=".tile.SalahTileProviderService"
             android:label="@string/title_activity_salah"

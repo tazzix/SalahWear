@@ -11,22 +11,23 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 
-class MenuAdapter(// private val drawableIcon: String? = null
-    private val context: Context, dataArgs: ArrayList<MenuItem>, callback: AdapterCallback?) :
-    RecyclerView.Adapter<MenuAdapter.RecyclerViewHolder>() {
+class MenuAdapter(private val context: Context, itemLayout: Int, dataArgs: ArrayList<MenuItem>, callback: AdapterCallback?) :
+RecyclerView.Adapter<MenuAdapter.RecyclerViewHolder>() {
     private var dataSource = ArrayList<MenuItem>()
+    private var itemLayout: Int
 
     interface AdapterCallback {
         fun onItemClicked(menuPosition: Int?)
     }
 
     private val callback: AdapterCallback?
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): RecyclerViewHolder {
         val view: View =
-            LayoutInflater.from(context).inflate(R.layout.recview_item, parent, false)
+            LayoutInflater.from(context).inflate(itemLayout, parent, false)
         return RecyclerViewHolder(view)
     }
 
@@ -55,6 +56,7 @@ class MenuAdapter(// private val drawableIcon: String? = null
     init {
         dataSource = dataArgs
         this.callback = callback
+        this.itemLayout = itemLayout
     }
 }
 
