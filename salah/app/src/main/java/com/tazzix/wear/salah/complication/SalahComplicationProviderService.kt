@@ -75,9 +75,9 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
                 .build()
             ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(
                 getAddressDescriptionText(1, type),
-                getAddressDescriptionText(1, type)
+                getAddressDescriptionText(2, type)
             )
-                .setTitle(getAddressDescriptionText(2, type))
+                //.setTitle(getAddressDescriptionText(1, type))
                 .setMonochromaticImage(
                     MonochromaticImage.Builder(
                         Icon.createWithResource(
