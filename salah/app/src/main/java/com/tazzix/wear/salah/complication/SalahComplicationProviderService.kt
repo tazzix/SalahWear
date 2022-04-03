@@ -78,14 +78,14 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
                 getAddressDescriptionText(1, type)
             )
                 .setTitle(getAddressDescriptionText(2, type))
-                .setMonochromaticImage(
+                /*.setMonochromaticImage(
                     MonochromaticImage.Builder(
                         Icon.createWithResource(
                             this,
                             R.drawable.ic_launcher
                         )
                     ).build()
-                )
+                )*/
                 .setTapAction(tapAction())
                 .build()
             else -> throw IllegalArgumentException("Unexpected complication type $type")
@@ -138,9 +138,11 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
                 if (now>next) { next = pts[5]; after = pts[0]; pId = "I"; aId = "F" }
                 if (now>next) { next = pts[0]; after = pts[1]; pId = "F"; aId = "S" }
                 //locality = "$pId ${next.toString()}/^ ${pInfo.sunrise.toString().dropLast(3)}/v ${pInfo.maghrib.toString().dropLast(3)}"
-                locality =  if (type==ComplicationType.LONG_TEXT) "$pId $next / $aId $after" else "$pId$next / $aId $after"
+                //locality = if (type==ComplicationType.LONG_TEXT) "$pId $next / $aId $after" else "$pId$next / $aId $after"
+                locality = if (type==ComplicationType.LONG_TEXT) "$pId$next/$aId$after" else "$pId$next / $aId $after"
             } else {
-                locality = "^ ${pts[1]} / v ${pts[4]}"
+                val rise = pts[1].toString().trimStart('0')
+                locality = if (type==ComplicationType.LONG_TEXT) "^${rise}/v${pts[4]}" else "^ $rise / v ${pts[4]}"
             }
 
             return PlainComplicationText.Builder(locality).build()
