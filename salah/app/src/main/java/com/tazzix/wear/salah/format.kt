@@ -30,7 +30,7 @@ fun getTimeAgo(time: Long): CharSequence {
 
 fun applyDSTOffset(ptimes: AzanTimes, dstOffset: Int) {
     for ((i, time) in ptimes.times.withIndex()) {
-        ptimes.times[i] = Time(time.hour+dstOffset, time.minute, time.second, time.isExtreme)
+        ptimes.times[i] = Time(time.hour+dstOffset-1, time.minute, time.second, time.isExtreme)
     }
 }
 
