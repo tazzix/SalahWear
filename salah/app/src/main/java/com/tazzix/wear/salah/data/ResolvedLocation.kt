@@ -24,7 +24,7 @@ object PermissionError: LocationResult()
 
 object NoLocation: LocationResult()
 
-data class MyLocation(val latitude: Double, val longitude: Double, val method: Int, val asrCalc: Int)
+data class MyLocation(val latitude: Double, val longitude: Double, val method: Int, val asrCalc: Int, val dstOffset: Int)
 
 data class PrayerInfo(val locality: String, val fajr: Time, val sunrise: Time, val dhuhur: Time, val asr: Time, val maghrib: Time, val isha: Time)
 

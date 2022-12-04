@@ -109,10 +109,11 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
         val lon = sharedPreference.getString("LL", "0.00")?.toDouble()!!
         val method = sharedPreference.getInt("METHOD", 0)
         val asrCalc = sharedPreference.getInt("ASR_CALC", 0)
+        val dstOffset = sharedPreference.getInt("DST_OFFSET", 1)
 
         // DONE: if location not found, put tap target
         return if (lat!=0.0 && lon!=0.0) {
-            val location = MyLocation(lat, lon, method, asrCalc)
+            val location = MyLocation(lat, lon, method, asrCalc, dstOffset)
             val pInfo = getAddressDescription(location, false)
             val now = LocalTime.now().minusMinutes(15)
             var pts = arrayOf(

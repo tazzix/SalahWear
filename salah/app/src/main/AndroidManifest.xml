@@ -66,6 +66,11 @@
             android:label="@string/prefs"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".ConfigDSTActivity"
+            android:label="@string/prefs"
+            android:exported="true">
+        </activity>
         <!--service
             android:name=".tile.SalahTileProviderService"
             android:label="@string/title_activity_salah"
