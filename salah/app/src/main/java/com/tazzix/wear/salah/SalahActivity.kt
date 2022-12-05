@@ -77,7 +77,8 @@ class SalahActivity : FragmentActivity() {
                 val shPrefs = getSharedPreferences("SALAH_LOCATION",Context.MODE_PRIVATE)
                 val method = shPrefs.getInt("METHOD", 0)
                 val asrCalc = shPrefs.getInt("ASR_CALC", 0)
-                val location2 = MyLocation(location.location.latitude, location.location.longitude, method, asrCalc)
+                val dstOffset = shPrefs.getInt("DST_OFFSET", 1)
+                val location2 = MyLocation(location.location.latitude, location.location.longitude, method, asrCalc, dstOffset)
                 renderUI(location2, location.location.time, true, "")
                 // DONE: save location in SharedPrefs
                 val editor = shPrefs.edit()
@@ -105,12 +106,13 @@ class SalahActivity : FragmentActivity() {
         val lon = sharedPreference.getString("LL", "0.00")?.toDouble()!!
         val method = sharedPreference.getInt("METHOD", 0)
         val asrCalc = sharedPreference.getInt("ASR_CALC", 0)
+        val dstOffset = sharedPreference.getInt("DST_OFFSET", 1)
         val tm = sharedPreference.getLong("TM", 0)
         val locVal = sharedPreference.getString("LC", "N/A")!!
 
         // DONE: if location not found, put tap target
         if (lat!=0.0 && lon!=0.0) {
-            val location2 = MyLocation(lat, lon, method, asrCalc)
+            val location2 = MyLocation(lat, lon, method, asrCalc, dstOffset)
             renderUI(location2,tm, false, locVal)
         }
     }

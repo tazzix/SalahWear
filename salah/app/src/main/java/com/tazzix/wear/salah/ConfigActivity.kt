@@ -34,8 +34,10 @@ class ConfigActivity : FragmentActivity() {
         val sharedPreferences =  getSharedPreferences("SALAH_LOCATION", Context.MODE_PRIVATE)
         val curMethod = resources.getStringArray(R.array.array_methods)[sharedPreferences.getInt("METHOD", 0)]
         val curAsrCalc = resources.getStringArray(R.array.array_asrcalcs)[sharedPreferences.getInt("ASR_CALC", 0)]
+        val curDSTOffset = resources.getStringArray(R.array.array_dst_offsets)[sharedPreferences.getInt("DST_OFFSET", 1)]
         menuItems.add(MenuItem(android.R.drawable.ic_menu_compass, getString(R.string.method), curMethod))
         menuItems.add(MenuItem(android.R.drawable.ic_menu_info_details, getString(R.string.asr_calc), curAsrCalc))
+        menuItems.add(MenuItem(android.R.drawable.ic_menu_info_details, getString(R.string.dst_offset), curDSTOffset))
 
         recyclerView.adapter = MenuAdapter(context, R.layout.recview_item, menuItems, object: MenuAdapter.AdapterCallback {
             override fun onItemClicked(menuPosition: Int?) {
@@ -47,6 +49,10 @@ class ConfigActivity : FragmentActivity() {
                     }
                     1 -> {
                         val intent = Intent(context, ConfigAsrCalcActivity::class.java)
+                        startActivity(intent)
+                    }
+                    2 -> {
+                        val intent = Intent(context, ConfigDSTActivity::class.java)
                         startActivity(intent)
                     }
                     else -> {
