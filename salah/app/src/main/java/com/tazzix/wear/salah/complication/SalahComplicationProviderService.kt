@@ -31,6 +31,7 @@ import com.tazzix.wear.salah.getAddressDescription
 import com.tazzix.wear.salah.kt.CoroutinesComplicationDataSourceService
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -115,7 +116,7 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
         return if (lat!=0.0 && lon!=0.0) {
             val location = MyLocation(lat, lon, method, asrCalc, dstOffset)
             val pInfo = getAddressDescription(location, false)
-            val now = LocalTime.now().minusMinutes(15)
+            val now = LocalTime.now()
             var pts = arrayOf(
                 LocalTime.parse(pInfo.fajr.toString(), DateTimeFormatter.ofPattern("H:m:ss")),
                 LocalTime.parse(pInfo.sunrise.toString(), DateTimeFormatter.ofPattern("H:m:ss")),
@@ -127,23 +128,23 @@ class SalahComplicationProviderService : CoroutinesComplicationDataSourceService
             // DateFormat.getTimeFormat(context); if changing from hard 24h format to whatever user has set
 
             val locality: String
-            if (lineNum==1) {
-                var pId = "F"
-                var aId = "S"
-                var next = pts[0]
-                var after = pts[1]
-                if (now>next) { next = pts[1]; after = pts[2]; pId = "S"; aId = "D" }
-                if (now>next) { next = pts[2]; after = pts[3]; pId = "D"; aId = "A" }
-                if (now>next) { next = pts[3]; after = pts[4]; pId = "A"; aId = "M" }
-                if (now>next) { next = pts[4]; after = pts[5]; pId = "M"; aId = "I" }
-                if (now>next) { next = pts[5]; after = pts[0]; pId = "I"; aId = "F" }
-                if (now>next) { next = pts[0]; after = pts[1]; pId = "F"; aId = "S" }
-                //locality = "$pId ${next.toString()}/^ ${pInfo.sunrise.toString().dropLast(3)}/v ${pInfo.maghrib.toString().dropLast(3)}"
-                //locality = if (type==ComplicationType.LONG_TEXT) "$pId $next / $aId $after" else "$pId$next / $aId $after"
-                locality = if (type==ComplicationType.LONG_TEXT) "$pId$next/$aId$after" else "$pId$next / $aId $after"
+            var pId = "Fajr"
+            var aId = "Sunrise"
+            var currPrayer = pts[0]
+            var nextPrayer = pts[1]
+            if (now>nextPrayer) { currPrayer = pts[1]; nextPrayer = pts[2]; pId = "Sunrise"; aId = "Dhuhr" }
+            if (now>nextPrayer) { currPrayer = pts[2]; nextPrayer = pts[3]; pId = "Dhuhr"; aId = "Asr" }
+            if (now>nextPrayer) { currPrayer = pts[3]; nextPrayer = pts[4]; pId = "Asr"; aId = "Maghrib" }
+            if (now>nextPrayer) { currPrayer = pts[4]; nextPrayer = pts[5]; pId = "Maghrib"; aId = "Isha" }
+            if (now>nextPrayer || now < pts[0]) { currPrayer = pts[5]; nextPrayer = pts[0]; pId = "Isha"; aId = "Fajr" }
+            locality = if (lineNum==1) {
+                val nextStr = currPrayer.format(DateTimeFormatter.ofPattern("h:mma"))
+                val afterStr = nextPrayer.format(DateTimeFormatter.ofPattern("h:mma"))
+                if (type==ComplicationType.LONG_TEXT) "${pId.get(0)} $nextStr / ${aId.get(0)} $afterStr" else "$pId ${nextStr} / $aId $afterStr"
             } else {
-                val rise = pts[1].toString().trimStart('0')
-                locality = if (type==ComplicationType.LONG_TEXT) "^${rise}/v${pts[4]}" else "^ $rise / v ${pts[4]}"
+                val remainingSeconds = now.until(nextPrayer, ChronoUnit.SECONDS)
+                val remainingTime = (LocalTime.MIDNIGHT.plusSeconds(remainingSeconds))
+                "$aId in ${remainingTime.hour}h ${remainingTime.minute}m"
             }
 
             return PlainComplicationText.Builder(locality).build()
