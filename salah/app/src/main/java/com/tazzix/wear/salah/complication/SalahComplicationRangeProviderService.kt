@@ -22,7 +22,6 @@ import android.util.Log
 import androidx.wear.complications.data.*
 import androidx.wear.complications.datasource.ComplicationDataSourceUpdateRequester
 import androidx.wear.complications.datasource.ComplicationRequest
-import com.azan.Time
 import com.tazzix.wear.salah.R
 import com.tazzix.wear.salah.SalahActivity.Companion.tapAction
 import com.tazzix.wear.salah.data.*
@@ -33,7 +32,11 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 
-class SalahComplicationProviderService : SalahComplicationBaseProviderService() {
+data class CurrentPrayerInfo(var current: LocalTime, var next: LocalTime, var currentName: String, var nextName: String, var pInfo: PrayerInfo) {
+}
+
+class SalahComplicationRangeProviderService : SalahComplicationBaseProviderService() {
+
     override suspend fun onComplicationUpdate(complicationRequest: ComplicationRequest) =
         toComplicationData(complicationRequest.complicationType)
 
@@ -45,39 +48,48 @@ class SalahComplicationProviderService : SalahComplicationBaseProviderService() 
     ): ComplicationData {
         var currentPrayer = getCurrentPrayerInfo()
         return when (type) {
-            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(
-                getAddressDescriptionText(1, type, currentPrayer),
-                getAddressDescriptionText(2, type, currentPrayer),
-            )
-                .setMonochromaticImage(
-                    MonochromaticImage.Builder(
-                        Icon.createWithResource(
-                            this,
-                            R.drawable.ic_launcher
-                        )
-                    ).build()
-                )
-                .setTapAction(tapAction())
-                .build()
-            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(
-                getAddressDescriptionText(1, type, currentPrayer),
-                getAddressDescriptionText(1, type, currentPrayer)
-            )
-                .setTitle(getAddressDescriptionText(2, type, currentPrayer))
-                .setTapAction(tapAction())
-                .build()
+            ComplicationType.RANGED_VALUE -> getRangedValueComplicationData(currentPrayer)
             else -> throw IllegalArgumentException("Unexpected complication type $type")
         }
     }
 
-    private fun getTimeAgoComplicationText(fromTime: Long): TimeDifferenceComplicationText.Builder {
-        return TimeDifferenceComplicationText.Builder(
-            TimeDifferenceStyle.SHORT_SINGLE_UNIT,
-            CountUpTimeReference(fromTime)
-        ).apply {
-            setMinimumTimeUnit(TimeUnit.MINUTES)
-            setDisplayAsNow(true)
+
+    private fun getRangedValueComplicationData(currentPrayerInfo: CurrentPrayerInfo?): RangedValueComplicationData {
+        var currentValue = 5F
+        var maxValue = 10F
+        var current = LocalTime.now()
+        var next = LocalTime.now()
+
+        // DONE: if location not found, put tap target
+        if (currentPrayerInfo != null) {
+            current = currentPrayerInfo.current
+            next = currentPrayerInfo.next
+            val now = LocalTime.now()
+            var offset = current.toSecondOfDay() / 60F
+            currentValue = (now.toSecondOfDay() / 60F) - offset
+            maxValue = (next.toSecondOfDay() / 60F) - offset
         }
+        Log.i("debug", "${currentValue} - ${maxValue}")
+        var delta = maxValue - currentValue
+        var hour = (delta / 60F).toInt()
+        var minute = (delta % 60F).toInt()
+        var text = PlainComplicationText.Builder(String.format("%s - %02d:%02d - %s", current, hour, minute, next)).build()
+        //
+        var emptyText = PlainComplicationText.Builder("").build()
+        return RangedValueComplicationData.Builder(
+            currentValue , 0F, maxValue, emptyText
+        )
+            .setMonochromaticImage(
+                MonochromaticImage.Builder(
+                    Icon.createWithResource(
+                        this,
+                        R.drawable.ic_launcher
+                    )
+                ).build()
+            )
+            .setTapAction(tapAction())
+            .setText(text)
+            .build()
     }
 
 }

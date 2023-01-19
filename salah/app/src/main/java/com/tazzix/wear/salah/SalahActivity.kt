@@ -25,7 +25,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
-import com.tazzix.wear.salah.complication.SalahComplicationProviderService.Companion.forceComplicationUpdate
+import com.tazzix.wear.salah.complication.SalahComplicationBaseProviderService.Companion.forceComplicationUpdate
 import com.tazzix.wear.salah.data.LocationViewModel
 import com.tazzix.wear.salah.data.MyLocation
 import com.tazzix.wear.salah.data.ResolvedLocation
