@@ -28,6 +28,12 @@ fun getTimeAgo(time: Long): CharSequence {
     return DateUtils.getRelativeTimeSpanString(time)
 }
 
+fun applyDSTOffset(ptimes: AzanTimes, dstOffset: Int) {
+    for ((i, time) in ptimes.times.withIndex()) {
+        ptimes.times[i] = Time(time.hour+dstOffset-1, time.minute, time.second, time.isExtreme)
+    }
+}
+
 fun Context.getAddressDescription(location: MyLocation, resolveLocality: Boolean): PrayerInfo {
     var locationVal = "N/A"
     if (resolveLocality) {
@@ -46,6 +52,7 @@ fun Context.getAddressDescription(location: MyLocation, resolveLocality: Boolean
     if (locationVal.isEmpty()) locationVal = String.format("%.3f, %.3f", location.latitude, location.longitude)
 
     val today = SimpleDate(GregorianCalendar())
+    // Subtract 1 from DST due to bug in library: https://github.com/ahmedeltaher/Prayer-Times-Android-Azan/issues/27#issue-866377567
     val loc = Location(location.latitude, location.longitude, TimeZone.getDefault().rawOffset.toDouble()/3600000, TimeZone.getDefault().dstSavings/3600000)
     val method = when(location.method) {
         0 -> Method.KARACHI_HANAF
@@ -70,6 +77,7 @@ fun Context.getAddressDescription(location: MyLocation, resolveLocality: Boolean
     method.madhhab = if(location.asrCalc==0) Madhhab.HANAFI else Madhhab.SHAAFI
     val azan = Azan(loc, method)
     val ptimes = azan.getPrayerTimes(today)
+    applyDSTOffset(ptimes, location.dstOffset)
 
     return PrayerInfo(locationVal, ptimes.fajr(), ptimes.shuruq(), ptimes.thuhr(), ptimes.assr(), ptimes.maghrib(), ptimes.ishaa())
 }

@@ -29,6 +29,7 @@
     <string name="prefs">Preferences</string>
     <string name="method">Method</string>
     <string name="asr_calc">Asr Calc</string>
+    <string name="dst_offset">DST Offset</string>
 
     <string-array name="array_methods">
         <item>Karachi: University of Islamic Sciences</item>
@@ -44,5 +45,10 @@
     <string-array name="array_asrcalcs">
         <item>Hanafi</item>
         <item>Shaafi</item>
+    </string-array>
+    <string-array name="array_dst_offsets">
+        <item>-1 hour</item>
+        <item>0 hours</item>
+        <item>+1 hour</item>
     </string-array>
 </resources>
