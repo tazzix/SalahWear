@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_dark"
-    android:padding="@dimen/box_inset_layout_padding"
+    android:paddingTop="@dimen/inner_frame_layout_padding_wide"
     tools:context=".SalahActivity"
     tools:deviceIds="wear">
 
@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:paddingTop="@dimen/inner_frame_layout_padding_wide"
         android:orientation="vertical">
 
         <TextView
@@ -22,6 +23,10 @@
             android:textStyle="bold"
             android:text="@string/dummy_loc"
             android:paddingBottom="@dimen/inner_frame_layout_padding"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="60sp"
+            android:autoSizeStepGranularity="2sp"
             android:layout_height="wrap_content" />
 
         <LinearLayout
@@ -42,36 +47,60 @@
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/fajr"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/sunrise"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/dhuhur"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/asr"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/maghrib"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/isha"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
@@ -87,6 +116,10 @@
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/dummy"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/sunrise"
@@ -94,6 +127,10 @@
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/dummy"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/dhuhur"
@@ -101,6 +138,10 @@
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/dummy"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/asr"
@@ -108,6 +149,10 @@
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/dummy"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/maghrib"
@@ -115,6 +160,10 @@
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/dummy"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/isha"
@@ -122,13 +171,17 @@
                     android:paddingHorizontal="@dimen/inner_frame_layout_padding"
                     android:textSize="@dimen/prayer_font_size"
                     android:text="@string/dummy"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
         <ImageButton
             android:id="@+id/buttom_prefs"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@android:drawable/ic_menu_preferences"
             android:contentDescription="@string/prefs" />
     </LinearLayout>
