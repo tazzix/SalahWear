@@ -35,5 +35,7 @@ class ConfigAsrCalcActivity : FragmentActivity() {
                 finish()
             }
         })
+
+        recyclerView.requestFocus()
     }
 }

@@ -35,5 +35,7 @@ class ConfigDSTActivity : FragmentActivity() {
                 finish()
             }
         })
+
+        recyclerView.requestFocus()
     }
 }

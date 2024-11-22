@@ -28,6 +28,7 @@ import com.tazzix.wear.salah.SalahActivity.Companion.tapAction
 import com.tazzix.wear.salah.data.*
 import com.tazzix.wear.salah.getAddressDescription
 import com.tazzix.wear.salah.kt.CoroutinesComplicationDataSourceService
+import java.time.Instant
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
@@ -43,7 +44,7 @@ class SalahComplicationProviderService : SalahComplicationBaseProviderService() 
     private fun toComplicationData(
         type: ComplicationType
     ): ComplicationData {
-        var currentPrayer = getCurrentPrayerInfo()
+        val currentPrayer = getCurrentPrayerInfo()
         return when (type) {
             ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(
                 getAddressDescriptionText(1, type, currentPrayer),
