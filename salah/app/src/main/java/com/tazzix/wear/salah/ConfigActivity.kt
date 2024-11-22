@@ -61,5 +61,7 @@ class ConfigActivity : FragmentActivity() {
                 }
             }
         })
+
+        recyclerView.requestFocus()
     }
 }

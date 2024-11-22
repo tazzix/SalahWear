@@ -35,5 +35,7 @@ class ConfigMethodActivity : FragmentActivity() {
                 finish()
             }
         })
+
+        recyclerView.requestFocus()
     }
 }
