@@ -4,12 +4,15 @@ import android.Manifest
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.wear.complications.data.ComplicationData
-import androidx.wear.complications.data.ComplicationText
-import androidx.wear.complications.data.ComplicationType
-import androidx.wear.complications.data.PlainComplicationText
-import androidx.wear.complications.datasource.ComplicationDataSourceUpdateRequester
-import androidx.wear.complications.datasource.ComplicationRequest
+import androidx.wear.watchface.complications.data.ComplicationText
+import androidx.wear.watchface.complications.data.ComplicationType
+import androidx.wear.watchface.complications.data.PlainComplicationText
+import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
+//import androidx.wear.watchface.complications.datasource.ComplicationDataSourceService
+//import androidx.wear.complications.data.ComplicationText
+//import androidx.wear.complications.data.ComplicationType
+//import androidx.wear.complications.data.PlainComplicationText
+//import androidx.wear.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.tazzix.wear.salah.R
 import com.tazzix.wear.salah.data.LocationViewModel
 import com.tazzix.wear.salah.data.MyLocation
@@ -17,6 +20,7 @@ import com.tazzix.wear.salah.getAddressDescription
 import com.tazzix.wear.salah.kt.CoroutinesComplicationDataSourceService
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+
 
 abstract class SalahComplicationBaseProviderService : CoroutinesComplicationDataSourceService() {
     private lateinit var locationViewModel: LocationViewModel
@@ -86,11 +90,20 @@ abstract class SalahComplicationBaseProviderService : CoroutinesComplicationData
     companion object {
         fun Context.forceComplicationUpdate() {
             if (applicationContext.checkCallingOrSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                val request = ComplicationDataSourceUpdateRequester(
-                    applicationContext, ComponentName(
-                        applicationContext, SalahComplicationProviderService::class.java
-                    )
+                val component: ComponentName = ComponentName(
+                    applicationContext,
+                    SalahComplicationProviderService::class.java
                 )
+
+                val request = ComplicationDataSourceUpdateRequester.create(
+                    applicationContext, component
+                )
+
+//                val request = ComplicationDataSourceUpdateRequester(
+//                    applicationContext, ComponentName(
+//                        applicationContext, SalahComplicationProviderService::class.java
+//                    )
+//                )
                 request.requestUpdateAll()
             }
         }

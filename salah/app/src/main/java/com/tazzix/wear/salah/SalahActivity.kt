@@ -59,7 +59,7 @@ class SalahActivity : FragmentActivity() {
 
         prefs = findViewById(R.id.buttom_prefs)
         prefs.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, ConfigActivity::class.java)
+            val intent = Intent(this, ConfigActivity::class.java).addFlags(PendingIntent.FLAG_IMMUTABLE)
             startActivity(intent)
         })
 
@@ -156,12 +156,12 @@ class SalahActivity : FragmentActivity() {
     companion object {
         fun Context.tapAction(): PendingIntent? {
             val intent = Intent(this, SalahActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or PendingIntent.FLAG_IMMUTABLE)
             return PendingIntent.getActivity(
                 this,
                 0,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
     }

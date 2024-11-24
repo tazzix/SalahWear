@@ -19,9 +19,18 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.drawable.Icon
 import android.util.Log
-import androidx.wear.complications.data.*
-import androidx.wear.complications.datasource.ComplicationDataSourceUpdateRequester
-import androidx.wear.complications.datasource.ComplicationRequest
+import androidx.wear.watchface.complications.data.ComplicationData
+import androidx.wear.watchface.complications.data.ComplicationType
+import androidx.wear.watchface.complications.data.CountUpTimeReference
+import androidx.wear.watchface.complications.data.LongTextComplicationData
+import androidx.wear.watchface.complications.data.MonochromaticImage
+import androidx.wear.watchface.complications.data.ShortTextComplicationData
+import androidx.wear.watchface.complications.data.TimeDifferenceComplicationText
+import androidx.wear.watchface.complications.data.TimeDifferenceStyle
+import androidx.wear.watchface.complications.datasource.ComplicationRequest
+//import androidx.wear.complications.data.*
+//import androidx.wear.complications.datasource.ComplicationDataSourceUpdateRequester
+//import androidx.wear.complications.datasource.ComplicationRequest
 import com.azan.Time
 import com.tazzix.wear.salah.R
 import com.tazzix.wear.salah.SalahActivity.Companion.tapAction
@@ -74,7 +83,7 @@ class SalahComplicationProviderService : SalahComplicationBaseProviderService() 
     private fun getTimeAgoComplicationText(fromTime: Long): TimeDifferenceComplicationText.Builder {
         return TimeDifferenceComplicationText.Builder(
             TimeDifferenceStyle.SHORT_SINGLE_UNIT,
-            CountUpTimeReference(fromTime)
+            CountUpTimeReference(Instant.ofEpochSecond(fromTime))
         ).apply {
             setMinimumTimeUnit(TimeUnit.MINUTES)
             setDisplayAsNow(true)

@@ -19,9 +19,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.drawable.Icon
 import android.util.Log
-import androidx.wear.complications.data.*
-import androidx.wear.complications.datasource.ComplicationDataSourceUpdateRequester
-import androidx.wear.complications.datasource.ComplicationRequest
+import androidx.wear.watchface.complications.data.ComplicationData
+import androidx.wear.watchface.complications.data.ComplicationType
+import androidx.wear.watchface.complications.data.MonochromaticImage
+import androidx.wear.watchface.complications.data.PlainComplicationText
+import androidx.wear.watchface.complications.data.RangedValueComplicationData
+import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import com.tazzix.wear.salah.R
 import com.tazzix.wear.salah.SalahActivity.Companion.tapAction
 import com.tazzix.wear.salah.data.*
