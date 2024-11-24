@@ -27,6 +27,7 @@
             android:name=".complication.SalahComplicationProviderService"
             android:icon="@mipmap/ic_launcher2"
             android:label="@string/app_name"
+            android:exported="true"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
             <intent-filter>
                 <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
@@ -43,6 +44,7 @@
             android:name=".complication.SalahComplicationRangeProviderService"
             android:icon="@mipmap/ic_launcher2"
             android:label="@string/complication_range"
+            android:exported="true"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
             <intent-filter>
                 <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
@@ -60,6 +62,7 @@
         <activity
             android:name=".SalahActivity"
             android:label="@string/title_activity_salah"
+            android:taskAffinity="com.tazzix.wear.salah"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,21 +73,25 @@
         <activity
             android:name=".ConfigActivity"
             android:label="@string/prefs"
+            android:taskAffinity="com.tazzix.wear.salah"
             android:exported="true">
         </activity>
         <activity
             android:name=".ConfigMethodActivity"
             android:label="@string/prefs"
+            android:taskAffinity="com.tazzix.wear.salah"
             android:exported="true">
         </activity>
         <activity
             android:name=".ConfigAsrCalcActivity"
             android:label="@string/prefs"
+            android:taskAffinity="com.tazzix.wear.salah"
             android:exported="true">
         </activity>
         <activity
             android:name=".ConfigDSTActivity"
             android:label="@string/prefs"
+            android:taskAffinity="com.tazzix.wear.salah"
             android:exported="true">
         </activity>
         <!--service
