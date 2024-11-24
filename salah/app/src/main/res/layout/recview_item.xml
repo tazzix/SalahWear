@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+    android:layout_gravity="center"
+    android:paddingBottom="@dimen/inner_frame_layout_padding_wide"
+    android:paddingTop="@dimen/inner_frame_layout_padding_wide">
 
     <ImageView
         android:id="@+id/menu_icon"
@@ -15,6 +16,8 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         tools:ignore="HardcodedText"
+        android:paddingStart="@dimen/inner_frame_layout_padding_wide"
+        android:paddingEnd="@dimen/inner_frame_layout_padding"
         android:contentDescription="icon" />
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,6 +32,10 @@
             android:text="Menu Item"
             android:textStyle="bold"
             android:textSize="18sp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="50sp"
+            android:autoSizeStepGranularity="2sp"
             tools:ignore="HardcodedText" />
         <TextView
             android:id="@+id/menu_detail"
@@ -36,7 +43,12 @@
             android:layout_height="wrap_content"
             android:text="Menu Item"
             android:textSize="12sp"
-            android:paddingEnd="10dp"
+            android:paddingStart="@dimen/inner_frame_layout_padding_wide"
+            android:paddingEnd="@dimen/inner_frame_layout_padding_wide"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="40sp"
+            android:autoSizeStepGranularity="2sp"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 </RelativeLayout>
