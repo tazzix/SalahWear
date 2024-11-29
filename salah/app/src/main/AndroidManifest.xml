@@ -61,6 +61,7 @@
 
         <activity
             android:name=".SalahActivity"
+            android:launchMode="singleInstance"
             android:label="@string/title_activity_salah"
             android:taskAffinity="com.tazzix.wear.salah"
             android:exported="true">

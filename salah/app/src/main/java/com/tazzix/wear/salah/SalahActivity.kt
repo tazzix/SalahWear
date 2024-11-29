@@ -21,10 +21,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
+import androidx.wear.widget.WearableRecyclerView
 import com.tazzix.wear.salah.complication.SalahComplicationBaseProviderService.Companion.forceComplicationUpdate
 import com.tazzix.wear.salah.data.LocationViewModel
 import com.tazzix.wear.salah.data.MyLocation
@@ -59,7 +61,7 @@ class SalahActivity : FragmentActivity() {
 
         prefs = findViewById(R.id.buttom_prefs)
         prefs.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, ConfigActivity::class.java).addFlags(PendingIntent.FLAG_IMMUTABLE)
+            val intent = Intent(this, ConfigActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
         })
 
@@ -90,6 +92,9 @@ class SalahActivity : FragmentActivity() {
                 loc.setText(R.string.location_error)
             }
         }
+
+        val prayerTimes: ScrollView = findViewById(R.id.prayertimes)
+        prayerTimes.requestFocus()
 
         forceComplicationUpdate()
     }
@@ -156,7 +161,7 @@ class SalahActivity : FragmentActivity() {
     companion object {
         fun Context.tapAction(): PendingIntent? {
             val intent = Intent(this, SalahActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or PendingIntent.FLAG_IMMUTABLE)
+                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             return PendingIntent.getActivity(
                 this,
                 0,
